@@ -1,0 +1,53 @@
+{
+    "name": "attributes-php/serialization",
+    "type": "library",
+    "description": "Serializes any class instance into a primitive type",
+    "keywords": [
+        "serialization",
+        "fast",
+        "attributes"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "attributes-php/options": "^0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Attributes\\Serialization\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Attributes\\Serialization\\Tests\\": "tests/"
+        },
+        "classmap": [
+            "tests/Models"
+        ]
+    },
+    "require-dev": {
+        "laravel/pint": "1.20.0",
+        "pestphp/pest": "^2.36",
+        "phpbench/phpbench": "^1.4"
+    },
+    "scripts": {
+        "lint": "./vendor/bin/pint --config pint.json",
+        "benchmark": "./vendor/bin/phpbench run tests/Benchmark/Base.php --tag=base --quiet && ./vendor/bin/phpbench run tests/Benchmark/Benchmark.php --report=aggregate --ref=base",
+        "test:lint": "./vendor/bin/pint --test",
+        "test:coverage": "./vendor/bin/pest --coverage --parallel",
+        "test:unit": "./vendor/bin/pest --colors=always --exclude-group=integration --parallel",
+        "test:integration": "./vendor/bin/pest --colors=always --group=integration",
+        "test": [
+            "@test:lint",
+            "@test:unit",
+            "@test:integration"
+        ]
+    },
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "pestphp/pest-plugin": true
+        }
+    }
+}
