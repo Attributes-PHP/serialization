@@ -1,4 +1,4 @@
-# Attributes Validation
+# Attributes Serialization
 
 <p align="center">
     <a href="https://codecov.io/gh/Attributes-PHP/serialization"><img alt="Code Coverage" src="https://codecov.io/gh/Attributes-PHP/serialization/graph/badge.svg?token=GtpW0Lrgqq"/></a>
@@ -6,7 +6,7 @@
     <a href="https://packagist.org/packages/Attributes-PHP/serialization"><img alt="Software License" src="https://img.shields.io/badge/Licence-MIT-brightgreen"></a>
 </p>
 
-**Attributes Serialization** is a library that is able to serialize any object into a PHP primitive type
+**Attributes Serialization** is a library that serializes any object into a PHP primitive type
 
 ## Features
 
