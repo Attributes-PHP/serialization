@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "attributes-php/options",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Attributes-PHP/options.git",
-                "reference": "f549fe3d74f5f1a0509f3df38091a71cb8f03644"
+                "reference": "0a14db984b0eed6f52b9550849de3f8d4aaa0876"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Attributes-PHP/options/zipball/f549fe3d74f5f1a0509f3df38091a71cb8f03644",
-                "reference": "f549fe3d74f5f1a0509f3df38091a71cb8f03644",
+                "url": "https://api.github.com/repos/Attributes-PHP/options/zipball/0a14db984b0eed6f52b9550849de3f8d4aaa0876",
+                "reference": "0a14db984b0eed6f52b9550849de3f8d4aaa0876",
                 "shasum": ""
             },
             "require": {
@@ -45,9 +45,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Attributes-PHP/options/issues",
-                "source": "https://github.com/Attributes-PHP/options/tree/v0.1.0"
+                "source": "https://github.com/Attributes-PHP/options/tree/v0.1.1"
             },
-            "time": "2025-06-16T07:56:02+00:00"
+            "time": "2025-06-19T06:43:46+00:00"
         }
     ],
     "packages-dev": [
