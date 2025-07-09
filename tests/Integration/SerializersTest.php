@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Attributes\Serialization\Tests\Integration;
 
 use Attributes\Serialization\Exceptions\SerializeException;
+use Attributes\Serialization\SerializableTrait;
 use Attributes\Serialization\Serializer;
 use Attributes\Serialization\Tests\Models as Models;
 use DateTime;
@@ -323,3 +324,24 @@ test('Serialize with options', function (): void {
         ]);
 })
     ->group('serializer', 'options');
+
+// Serializable trait
+
+test('Serialize with trait', function (): void {
+    $model = new class
+    {
+        use SerializableTrait;
+
+        public int $id = 10;
+
+        public string $name = 'Andre';
+    };
+
+    expect($model->serialize())
+        ->toBeArray()
+        ->toBe([
+            'id' => 10,
+            'name' => 'Andre',
+        ]);
+})
+    ->group('serializer', 'options', 'trait');

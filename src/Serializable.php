@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Attributes\Serialization;
 
+use Attributes\Serialization\Exceptions\SerializeException;
+
 interface Serializable
 {
     /**
@@ -17,6 +19,8 @@ interface Serializable
      * @param  object  $model  - Model to serialize
      *
      * @returns mixed
+     *
+     * @throws SerializeException If unable to serialize value
      */
     public function serialize(object $model): mixed;
 }
