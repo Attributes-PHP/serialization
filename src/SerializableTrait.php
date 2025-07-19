@@ -17,6 +17,9 @@ trait SerializableTrait
     {
         if ($this->serializer === null) {
             $this->serializer = new Serializer;
+            if (function_exists('apply_filters')) {
+                $this->serializer = apply_filters('fastendpoints_serializer', $this->serializer);
+            }
         }
 
         return $this->serializer->serialize($this);
