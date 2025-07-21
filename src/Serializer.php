@@ -42,11 +42,16 @@ final class Serializer implements Serializable
     /**
      * Converts a model into an array of primitive types.
      *
+     * @param  object  $model  - The model to serialize
+     * @param  bool  $useIgnores  - Determines if we should rely on Options\Ignore to serialize the fields needed
+     * @param  bool  $useValidation  - Determines if we want only the properties that were marked as validation. Default false
+     * @param  bool  $useVisibilityMethods  - Determines if we should rely on the visibility methods to serialize the fields needed
+     * @param  bool  $byAlias  - Determines if we should rely on the alias for the fields names
      * @return array|string|int
      *
      * @throws SerializeException - when an error occurs
      */
-    public function serialize(object $model): mixed
+    public function serialize(object $model, bool $useIgnores = true, bool $useValidation = false, bool $useVisibilityMethods = true, bool $byAlias = true): mixed
     {
         if ($this->allVisibilityMethods === null) {
             $this->allVisibilityMethods = $this->getAllVisibilityMethods();
@@ -93,7 +98,7 @@ final class Serializer implements Serializable
                 continue;
             }
 
-            if (! $this->shouldBeSerialized($property)) {
+            if (! $this->shouldBeSerialized($property, useIgnores: $useIgnores, useValidation: $useValidation, useVisibilityMethods: $useVisibilityMethods)) {
                 continue;
             }
 
@@ -101,7 +106,7 @@ final class Serializer implements Serializable
             if (is_array($value)) {
                 $value = new ArrayObject($value);
             }
-            $name = $this->getPropertyName($property);
+            $name = $this->getPropertyName($property, byAlias: $byAlias);
             $data[$name] = is_object($value) ? $this->clone()->serialize($value) : $value;
         }
 
@@ -140,14 +145,16 @@ final class Serializer implements Serializable
     /**
      * Determines if a given property should be serialized
      */
-    private function shouldBeSerialized(ReflectionProperty $property): bool
+    private function shouldBeSerialized(ReflectionProperty $property, bool $useIgnores, bool $useValidation, bool $useVisibilityMethods): bool
     {
         $allIgnoreAttributes = $property->getAttributes(Options\Ignore::class);
-        if ($allIgnoreAttributes && $allIgnoreAttributes[0]->newInstance()->ignoreSerialization()) {
-            return false;
+        if ($useIgnores && $allIgnoreAttributes) {
+            $ignore = $allIgnoreAttributes[0]->newInstance();
+
+            return $useValidation ? ! $ignore->ignoreValidation() : ! $ignore->ignoreSerialization();
         }
 
-        if (! $this->allVisibilityMethods) {
+        if (! $this->allVisibilityMethods || ! $useVisibilityMethods) {
             return true;
         }
 
@@ -170,8 +177,12 @@ final class Serializer implements Serializable
         return $aliasGenerator[0]->newInstance()->getAliasGenerator();
     }
 
-    private function getPropertyName(ReflectionProperty $property): string
+    private function getPropertyName(ReflectionProperty $property, bool $byAlias): string
     {
+        if (! $byAlias) {
+            return $property->getName();
+        }
+
         $alias = $property->getAttributes(Options\Alias::class);
         if ($alias) {
             return $alias[0]->newInstance()->getAlias($property->getName());

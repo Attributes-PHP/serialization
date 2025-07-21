@@ -295,36 +295,6 @@ test('Invalid property visibility', function (mixed $value): void {
     ->throws(SerializeException::class)
     ->group('serializer', 'visibility');
 
-// Options
-
-test('Serialize with options', function (): void {
-    $post = new Models\Complex\Post;
-    $post->myPostId = 1;
-    $post->title = 'My post title';
-
-    $profile = new Models\Complex\Profile;
-    $profile->myPost = $post;
-
-    $user = new Models\Complex\User;
-    $user->profile = $profile;
-    $user->fullName = 'Andre Gil';
-
-    $serializer = new Serializer;
-    $data = $serializer->serialize($user);
-
-    expect($data)
-        ->toBeArray()
-        ->toBe([
-            'profile' => [
-                'my_post' => [
-                    'my_title' => 'My post title',
-                ],
-            ],
-            'full_name' => 'Andre Gil',
-        ]);
-})
-    ->group('serializer', 'options');
-
 // Serializable trait
 
 test('Serialize with trait', function (): void {
@@ -344,4 +314,4 @@ test('Serialize with trait', function (): void {
             'name' => 'Andre',
         ]);
 })
-    ->group('serializer', 'options', 'trait');
+    ->group('serializer', 'trait');

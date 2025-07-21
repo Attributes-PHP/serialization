@@ -13,7 +13,7 @@ trait SerializableTrait
     /**
      * @throws SerializeException
      */
-    public function serialize(): mixed
+    public function serialize(bool $useIgnores = true, bool $useValidation = false, bool $useVisibilityMethods = true, bool $byAlias = true): mixed
     {
         if ($this->serializer === null) {
             $this->serializer = new Serializer;
@@ -22,6 +22,6 @@ trait SerializableTrait
             }
         }
 
-        return $this->serializer->serialize($this);
+        return $this->serializer->serialize($this, useIgnores: $useIgnores, useValidation: $useValidation, useVisibilityMethods: $useVisibilityMethods, byAlias: $byAlias);
     }
 }
