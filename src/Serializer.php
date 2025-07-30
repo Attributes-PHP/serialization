@@ -60,7 +60,7 @@ final class Serializer implements Serializable
         if ($model instanceof StdClass) {
             $model = new ArrayObject((array) $model);
 
-            return $this->clone()->serialize($model);
+            return $this->clone()->serialize($model, $useIgnores, $useValidation, $useVisibilityMethods, $byAlias);
         }
 
         if ($model instanceof DateTimeInterface) {
@@ -74,7 +74,7 @@ final class Serializer implements Serializable
                 if (is_array($item)) {
                     $item = new ArrayObject($item);
                 }
-                $allValues[$key] = is_object($item) ? $clone->serialize($item) : $item;
+                $allValues[$key] = is_object($item) ? $clone->serialize($item, $useIgnores, $useValidation, $useVisibilityMethods, $byAlias) : $item;
             }
 
             return $allValues;
@@ -107,7 +107,7 @@ final class Serializer implements Serializable
                 $value = new ArrayObject($value);
             }
             $name = $this->getPropertyName($property, byAlias: $byAlias);
-            $data[$name] = is_object($value) ? $this->clone()->serialize($value) : $value;
+            $data[$name] = is_object($value) ? $this->clone()->serialize($value, $useIgnores, $useValidation, $useVisibilityMethods, $byAlias) : $value;
         }
 
         return $data;
